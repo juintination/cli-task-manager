@@ -34,6 +34,10 @@ public class TaskManager {
         tasks.add(task);
     }
 
+    public void deleteTask(BasicTask task) {
+        tasks.remove(task);
+    }
+
     public void start() {
         inputName();
         while (true) {
@@ -112,7 +116,7 @@ public class TaskManager {
                 modifyTasks();
                 break;
             case 4:
-                // removeTask();
+                removeTask();
                 break;
             case 0:
                 System.out.println("Goodbye, " + name + "!");
@@ -364,6 +368,21 @@ public class TaskManager {
     private void changeDescription(BasicTask task) {
         String description = inputTaskDescription();
         task.setDescription(description);
+    }
+
+    private void removeTask() {
+        if (tasks.isEmpty()) {
+            System.out.println("There are no tasks to remove.");
+            return;
+        }
+        System.out.println("Which task would you like to remove?");
+        printAllTasks();
+        System.out.println("0. Go back");
+        int index = inputTaskIndex();
+        if (index == -1) {
+            return;
+        }
+        deleteTask(tasks.get(index));
     }
 
 }
