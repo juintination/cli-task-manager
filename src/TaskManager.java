@@ -102,7 +102,7 @@ public class TaskManager {
         boolean isContinue = true;
         switch (choicedNumber) {
             case 1:
-                // viewTasks();
+                viewTasks();
                 break;
             case 2:
                 addTask();
@@ -119,6 +119,90 @@ public class TaskManager {
                 break;
         }
         return isContinue;
+    }
+
+    private void viewTasks() {
+        if (tasks.isEmpty()) {
+            System.out.println("There are no tasks to view.");
+            return;
+        }
+        printMoreViewMessage();
+        byte choicedNumber = inputChoice();
+        viewTaskLoop(choicedNumber);
+    }
+
+    private void printMoreViewMessage() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("What would you like to do?\n")
+                .append("1. View every tasks\n")
+                .append("2. View pending tasks\n")
+                .append("3. View urgent tasks\n")
+                .append("4. View completed tasks\n")
+                .append("0. Go back");
+        System.out.println(sb);
+    }
+
+    private void viewTaskLoop(byte choicedNumber) {
+        switch (choicedNumber) {
+            case 1:
+                viewEveryTasks();
+                break;
+            case 2:
+                viewPendingTasks();
+                break;
+            case 3:
+                viewUrgentTasks();
+                break;
+            case 4:
+                viewCompletedTasks();
+                break;
+            case 0:
+                break;
+        }
+    }
+
+    private void printAllTasks() {
+        for (int i = 0; i < tasks.size(); i++) {
+            BasicTask task = tasks.get(i);
+            System.out.println(i + 1 + ". " + task.getInfo());
+        }
+    }
+
+    private void viewEveryTasks() {
+        System.out.println("Every tasks...");
+        for (int i = 0; i < tasks.size(); i++) {
+            BasicTask task = tasks.get(i);
+            System.out.println(i + 1 + ". " + task.getInfo());
+        }
+    }
+
+    private void viewPendingTasks() {
+        System.out.println("Pending tasks...");
+        for (int i = 0; i < tasks.size(); i++) {
+            BasicTask task = tasks.get(i);
+            if (task instanceof PendingTask) {
+                System.out.println(i + 1 + ". " + task.getInfo());
+            }
+        }
+    }
+
+    private void viewUrgentTasks() {
+        for (int i = 0; i < tasks.size(); i++) {
+            BasicTask task = tasks.get(i);
+            if (task instanceof UrgentTask) {
+                System.out.println(i + 1 + ". " + task.getInfo());
+            }
+        }
+    }
+
+    private void viewCompletedTasks() {
+        System.out.println("Completed tasks...");
+        for (int i = 0; i < tasks.size(); i++) {
+            BasicTask task = tasks.get(i);
+            if (task instanceof CompletedTask) {
+                System.out.println(i + 1 + ". " + task.getInfo());
+            }
+        }
     }
 
     private void addTask() {
