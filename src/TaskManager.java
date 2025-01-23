@@ -11,6 +11,7 @@ public class TaskManager {
     private final String NAME_ERROR_MESSAGE = "Name cannot be empty. Please enter it again.";
     private final String TASK_TITLE_ERROR_MESSAGE = "Title cannot be empty. Please enter it again.";
     private final String TASK_DESCRIPTION_ERROR_MESSAGE = "Description cannot be empty. Please enter it again.";
+    private final String TASK_COMPLETED_ERROR_MESSAGE = "Completed task's priority cannot be modified.";
 
     private String name;
     private BufferedReader br;
@@ -108,7 +109,7 @@ public class TaskManager {
                 addTask();
                 break;
             case 3:
-                // modifyTasks();
+                modifyTasks();
                 break;
             case 4:
                 // removeTask();
@@ -251,6 +252,118 @@ public class TaskManager {
         if (description.isEmpty()) {
             throw new IllegalArgumentException(TASK_DESCRIPTION_ERROR_MESSAGE);
         }
+    }
+
+    private void modifyTasks() {
+        if (tasks.isEmpty()) {
+            System.out.println("There are no tasks to modify.");
+            return;
+        }
+        System.out.println("Which task would you like to modify?");
+        printAllTasks();
+        System.out.println("0. Go back");
+        int index = inputTaskIndex();
+        if (index == -1) {
+            return;
+        }
+        BasicTask task = tasks.get(index);
+        printMoreModifyMessage();
+        byte choicedNumber = inputChoice();
+        modifyTaskLoop(task, choicedNumber);
+    }
+
+    private int inputTaskIndex() {
+        while (true) {
+            System.out.print("Enter the number of the task: ");
+            try {
+                String index = br.readLine();
+                validateTaskIndex(index);
+                return Integer.parseInt(index) - 1;
+            } catch (IOException e) {
+                System.out.println(INPUT_ERROR_MESSAGE);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private void validateTaskIndex(String index) {
+        if (index.isEmpty() || !index.matches("[0-9]+") || Integer.parseInt(index) < 0 || Integer.parseInt(index) > tasks.size()) {
+            throw new IllegalArgumentException(INPUT_ERROR_MESSAGE);
+        }
+    }
+
+    private void printMoreModifyMessage() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("What would you like to do with the task?\n")
+                .append("1. Change status\n")
+                .append("2. Change priority\n")
+                .append("3. Change title\n")
+                .append("4. Change description\n")
+                .append("0. Go back");
+        System.out.println(sb);
+    }
+
+    private void modifyTaskLoop(BasicTask task, byte choicedNumber) {
+        switch (choicedNumber) {
+            case 1:
+                changeDone(task);
+                break;
+            case 2:
+                changePriority(task);
+                break;
+            case 3:
+                changeTitle(task);
+                break;
+            case 4:
+                changeDescription(task);
+                break;
+            case 0:
+                break;
+        }
+    }
+
+    private void changeDone(BasicTask task) {
+        BasicTask modifiedTask = null;
+        if (task.isDone()) {
+            modifiedTask = new PendingTask(task.getTitle(), task.getDescription());
+        } else {
+            modifiedTask = new CompletedTask(task.getTitle(), task.getDescription());
+        }
+        tasks.set(tasks.indexOf(task), modifiedTask);
+    }
+
+    private void changePriority(BasicTask task) {
+        BasicTask modifiedTask = null;
+        try {
+            validateIsPendingOrUrgent(task);
+            if (task instanceof UrgentTask) {
+                modifiedTask = new PendingTask(task.getTitle(), task.getDescription());
+            } else {
+                modifiedTask = new UrgentTask(task.getTitle(), task.getDescription());
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+        if (modifiedTask != null) {
+            tasks.set(tasks.indexOf(task), modifiedTask);
+        }
+    }
+
+    private void validateIsPendingOrUrgent(BasicTask task) {
+        if (task instanceof CompletedTask) {
+            throw new IllegalArgumentException(TASK_COMPLETED_ERROR_MESSAGE);
+        }
+    }
+
+    private void changeTitle(BasicTask task) {
+        String title = inputTaskTitle();
+        task.setTitle(title);
+    }
+
+    private void changeDescription(BasicTask task) {
+        String description = inputTaskDescription();
+        task.setDescription(description);
     }
 
 }
