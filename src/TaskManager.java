@@ -105,7 +105,7 @@ public class TaskManager {
                 // viewTasks();
                 break;
             case 2:
-                offerTask();
+                addTask();
                 break;
             case 3:
                 // modifyTasks();
@@ -121,7 +121,7 @@ public class TaskManager {
         return isContinue;
     }
 
-    private void offerTask() {
+    private void addTask() {
         String title = inputTaskTitle();
         String description = inputTaskDescription();
         offerTask(new PendingTask(title, description));
