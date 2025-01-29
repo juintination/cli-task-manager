@@ -24,7 +24,7 @@ CLI 프로그램 제작 (동기 프로그램)
 
 ### 클래스 다이어그램
 
-![diagram](https://github.com/user-attachments/assets/aaf59b06-1e3e-4855-9435-fea35c04e2c0)
+![diagram](https://github.com/user-attachments/assets/edb35d79-c62d-4d34-b620-0bd42dd2c48e)
 
 ### 구현할 기능 목록
 
