@@ -26,6 +26,216 @@ CLI 프로그램 제작 (동기 프로그램)
 
 ![diagram](https://github.com/user-attachments/assets/edb35d79-c62d-4d34-b620-0bd42dd2c48e)
 
+### 입출력 예시
+
+- 사용자 이름 입력
+
+```
+Please enter your name: jay
+```
+
+- 작업 목록이 비어있는 경우
+
+```
+Hi, jay! Welcome to CLI Task Manager. What would you like to do?
+1. View tasks
+2. Add a task
+3. Modify tasks
+4. Remove a task
+0. Exit
+1
+There are no tasks to view.
+```
+
+- 작업 추가
+
+```
+Hi, jay! Welcome to CLI Task Manager. What would you like to do?
+1. View tasks
+2. Add a task
+3. Modify tasks
+4. Remove a task
+0. Exit
+2
+Enter the title of the task: Sample title
+Enter the description of the task: Sample description
+```
+
+- 작업 상태(완료 여부) 변경
+
+
+```
+Hi, jay! Welcome to CLI Task Manager. What would you like to do?
+1. View tasks
+2. Add a task
+3. Modify tasks
+4. Remove a task
+0. Exit
+3
+Which task would you like to modify?
+1. "Sample title - Sample description" is pending.
+2. "Sample Title 2 - Sample Description 2" is pending.
+3. "Sample Title 3 - Sample Description 3" is pending.
+0. Go back
+Enter the number of the task: 1
+What would you like to do with the task?
+1. Change status
+2. Change priority
+3. Change title
+4. Change description
+0. Go back
+1
+```
+
+- 작업 중요도 변경
+
+```
+Hi, jay! Welcome to CLI Task Manager. What would you like to do?
+1. View tasks
+2. Add a task
+3. Modify tasks
+4. Remove a task
+0. Exit
+3
+Which task would you like to modify?
+1. "Sample title - Sample description" is completed.
+2. "Sample Title 2 - Sample Description 2" is pending.
+3. "Sample Title 3 - Sample Description 3" is pending.
+0. Go back
+Enter the number of the task: 2
+What would you like to do with the task?
+1. Change status
+2. Change priority
+3. Change title
+4. Change description
+0. Go back
+2
+```
+
+- 작업 제목 및 내용 변경
+
+```
+Hi, jay! Welcome to CLI Task Manager. What would you like to do?
+1. View tasks
+2. Add a task
+3. Modify tasks
+4. Remove a task
+0. Exit
+3
+Which task would you like to modify?
+1. "Sample title - Sample description" is completed.
+2. [URGENT] "Sample Title 2 - Sample Description 2" is pending.
+3. "Sample Title 3 - Sample Description 3" is pending.
+0. Go back
+Enter the number of the task: 3
+What would you like to do with the task?
+1. Change status
+2. Change priority
+3. Change title
+4. Change description
+0. Go back
+3
+Enter the title of the task: Modified Title
+
+Hi, jay! Welcome to CLI Task Manager. What would you like to do?
+1. View tasks
+2. Add a task
+3. Modify tasks
+4. Remove a task
+0. Exit
+3
+Which task would you like to modify?
+1. "Sample title - Sample description" is completed.
+2. [URGENT] "Sample Title 2 - Sample Description 2" is pending.
+3. "Modified Title - Sample Description 3" is pending.
+0. Go back
+Enter the number of the task: 3
+What would you like to do with the task?
+1. Change status
+2. Change priority
+3. Change title
+4. Change description
+0. Go back
+4
+Enter the description of the task: Modified Description
+```
+
+- 모든 작업 목록 출력
+
+```
+Hi, jay! Welcome to CLI Task Manager. What would you like to do?
+1. View tasks
+2. Add a task
+3. Modify tasks
+4. Remove a task
+0. Exit
+1
+What would you like to do?
+1. View every tasks
+2. View pending tasks
+3. View urgent tasks
+4. View completed tasks
+0. Go back
+1
+Every tasks...
+1. "Sample title - Sample description" is completed.
+2. [URGENT] "Sample Title 2 - Sample Description 2" is pending.
+3. "Modified Title - Modified Description" is pending.
+```
+
+- 진행중인 작업 목록 출력
+
+```
+Hi, jay! Welcome to CLI Task Manager. What would you like to do?
+1. View tasks
+2. Add a task
+3. Modify tasks
+4. Remove a task
+0. Exit
+1
+What would you like to do?
+1. View every tasks
+2. View pending tasks
+3. View urgent tasks
+4. View completed tasks
+0. Go back
+2
+Pending tasks...
+2. [URGENT] "Sample Title 2 - Sample Description 2" is pending.
+3. "Modified Title - Modified Description" is pending.
+```
+
+- 작업 삭제
+
+```
+Hi, jay! Welcome to CLI Task Manager. What would you like to do?
+1. View tasks
+2. Add a task
+3. Modify tasks
+4. Remove a task
+0. Exit
+4
+Which task would you like to remove?
+1. "Sample title - Sample description" is completed.
+2. [URGENT] "Sample Title 2 - Sample Description 2" is pending.
+3. "Modified Title - Modified Description" is pending.
+0. Go back
+Enter the number of the task: 1
+```
+
+- 프로그램 종료
+
+```
+Hi, jay! Welcome to CLI Task Manager. What would you like to do?
+1. View tasks
+2. Add a task
+3. Modify tasks
+4. Remove a task
+0. Exit
+0
+Goodbye, jay!
+```
+
 ### 구현할 기능 목록
 
 - 사용자 이름 입력
