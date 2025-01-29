@@ -2,9 +2,9 @@ package task;
 
 public class BasicTask {
 
-    String title;
-    String description;
-    boolean isDone;
+    private String title;
+    private String description;
+    private boolean isDone;
 
     public BasicTask(String title, String description, boolean isDone) {
         this.title = title;
