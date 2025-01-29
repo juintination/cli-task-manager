@@ -30,11 +30,11 @@ public class TaskManager {
         return taskManager;
     }
 
-    public void offerTask(BasicTask task) {
+    private void offerTask(BasicTask task) {
         tasks.add(task);
     }
 
-    public void deleteTask(BasicTask task) {
+    private void deleteTask(BasicTask task) {
         tasks.remove(task);
     }
 
