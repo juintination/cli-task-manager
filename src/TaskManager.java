@@ -15,7 +15,7 @@ public class TaskManager {
 
     private String name;
     private BufferedReader br;
-    private List<BasicTask> tasks;
+    private List<Task> tasks;
 
     private TaskManager() {
         name = "";
@@ -30,11 +30,11 @@ public class TaskManager {
         return taskManager;
     }
 
-    private void offerTask(BasicTask task) {
+    private void offerTask(Task task) {
         tasks.add(task);
     }
 
-    private void deleteTask(BasicTask task) {
+    private void deleteTask(Task task) {
         tasks.remove(task);
     }
 
@@ -156,7 +156,7 @@ public class TaskManager {
 
     private void printAllTasks() {
         for (int i = 0; i < tasks.size(); i++) {
-            BasicTask task = tasks.get(i);
+            Task task = tasks.get(i);
             System.out.println(i + 1 + ". " + task.getInfo());
         }
     }
@@ -164,7 +164,7 @@ public class TaskManager {
     private void viewEveryTasks() {
         System.out.println("Every tasks...");
         for (int i = 0; i < tasks.size(); i++) {
-            BasicTask task = tasks.get(i);
+            Task task = tasks.get(i);
             System.out.println(i + 1 + ". " + task.getInfo());
         }
     }
@@ -172,8 +172,8 @@ public class TaskManager {
     private void viewPendingTasks() {
         System.out.println("Pending tasks...");
         for (int i = 0; i < tasks.size(); i++) {
-            BasicTask task = tasks.get(i);
-            if (task instanceof PendingTask) {
+            Task task = tasks.get(i);
+            if (!task.isDone()) {
                 System.out.println(i + 1 + ". " + task.getInfo());
             }
         }
@@ -181,8 +181,8 @@ public class TaskManager {
 
     private void viewUrgentTasks() {
         for (int i = 0; i < tasks.size(); i++) {
-            BasicTask task = tasks.get(i);
-            if (task instanceof UrgentTask) {
+            Task task = tasks.get(i);
+            if (task.getState() instanceof Urgent) {
                 System.out.println(i + 1 + ". " + task.getInfo());
             }
         }
@@ -191,8 +191,8 @@ public class TaskManager {
     private void viewCompletedTasks() {
         System.out.println("Completed tasks...");
         for (int i = 0; i < tasks.size(); i++) {
-            BasicTask task = tasks.get(i);
-            if (task instanceof CompletedTask) {
+            Task task = tasks.get(i);
+            if (task.isDone()) {
                 System.out.println(i + 1 + ". " + task.getInfo());
             }
         }
@@ -201,7 +201,7 @@ public class TaskManager {
     private void addTask() {
         String title = inputTaskTitle();
         String description = inputTaskDescription();
-        offerTask(new PendingTask(title, description));
+        offerTask(new Task(title, description));
     }
 
     private String inputTaskTitle() {
@@ -246,7 +246,7 @@ public class TaskManager {
         if (index == -1) {
             return;
         }
-        BasicTask task = tasks.get(index);
+        Task task = tasks.get(index);
         printMoreModifyMessage();
         byte choicedNumber = inputChoice();
         modifyTaskLoop(task, choicedNumber);
@@ -278,7 +278,7 @@ public class TaskManager {
         System.out.println(sb);
     }
 
-    private void modifyTaskLoop(BasicTask task, byte choicedNumber) {
+    private void modifyTaskLoop(Task task, byte choicedNumber) {
         switch (choicedNumber) {
             case 1:
                 changeDone(task);
@@ -297,39 +297,25 @@ public class TaskManager {
         }
     }
 
-    private void changeDone(BasicTask task) {
-        BasicTask modifiedTask = null;
-        if (task.isDone()) {
-            modifiedTask = new PendingTask(task.getTitle(), task.getDescription());
-        } else {
-            modifiedTask = new CompletedTask(task.getTitle(), task.getDescription());
-        }
-        tasks.set(tasks.indexOf(task), modifiedTask);
+    private void changeDone(Task task) {
+        task.changeDone();
     }
 
-    private void changePriority(BasicTask task) {
-        BasicTask modifiedTask = null;
+    private void changePriority(Task task) {
         try {
             TaskValidator.validateIsPendingOrUrgent(task);
-            if (task instanceof UrgentTask) {
-                modifiedTask = new PendingTask(task.getTitle(), task.getDescription());
-            } else {
-                modifiedTask = new UrgentTask(task.getTitle(), task.getDescription());
-            }
+            task.changePriority();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
-        if (modifiedTask != null) {
-            tasks.set(tasks.indexOf(task), modifiedTask);
-        }
     }
 
-    private void changeTitle(BasicTask task) {
+    private void changeTitle(Task task) {
         String title = inputTaskTitle();
         task.setTitle(title);
     }
 
-    private void changeDescription(BasicTask task) {
+    private void changeDescription(Task task) {
         String description = inputTaskDescription();
         task.setDescription(description);
     }

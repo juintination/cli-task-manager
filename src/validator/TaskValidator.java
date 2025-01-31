@@ -40,8 +40,8 @@ public class TaskValidator {
         }
     }
 
-    public static void validateIsPendingOrUrgent(BasicTask task) {
-        if (task instanceof CompletedTask) {
+    public static void validateIsPendingOrUrgent(Task task) {
+        if (task.getState() instanceof Completed) {
             throw new IllegalArgumentException(TASK_COMPLETED_ERROR_MESSAGE);
         }
     }

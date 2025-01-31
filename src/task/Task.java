@@ -1,15 +1,15 @@
 package task;
 
-public class BasicTask {
+public class Task {
 
     private String title;
     private String description;
-    private boolean isDone;
+    private TaskState state;
 
-    public BasicTask(String title, String description, boolean isDone) {
+    public Task(String title, String description) {
         this.title = title;
         this.description = description;
-        this.isDone = isDone;
+        this.state = new Pending();
     }
 
     public String getTitle() {
@@ -28,12 +28,28 @@ public class BasicTask {
         this.description = description;
     }
 
+    public TaskState getState() {
+        return state;
+    }
+
+    public void setState(TaskState state) {
+        this.state = state;
+    }
+
     public boolean isDone() {
-        return isDone;
+        return state instanceof Completed;
     }
 
     public String getInfo() {
-        return "\"" + title + " - " + description + "\"";
+        return state.getInfo(this);
+    }
+
+    public void changeDone() {
+        state.changeDone(this);
+    }
+
+    public void changePriority() {
+        state.changePriority(this);
     }
 
 }
