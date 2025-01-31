@@ -19,12 +19,13 @@ CLI 프로그램 제작 (동기 프로그램)
 
 - CLI 기반의 간단한 작업 관리 프로그램
     - 사용자는 해야 할 작업을 등록하고 관리할 수 있다.
-- 진행중인 작업 PendingTask와 완료된 작업 CompletedTask는 기본 작업 BasicTask를 상속받는다.
-    - 긴급하게 해야 할 작업 UrgentTask는 PendingTask를 상속받는다.
+- 각 작업은 작업의 상태를 의미하는 TaskState를 속성으로 가진다.
+    - 진행중을 의미하는 Pending과 완료됨을 의미하는 Completed는 TaskState를 상속받는다.
+    - 긴급하게 해야 함을 의미하는 Urgent는 Pending을 상속받는다.
 
 ### 클래스 다이어그램
 
-![diagram](https://github.com/user-attachments/assets/edb35d79-c62d-4d34-b620-0bd42dd2c48e)
+![diagram](https://github.com/user-attachments/assets/619feb1c-cc13-4130-bed2-0eef9ceff4c9)
 
 ### 입출력 예시
 
