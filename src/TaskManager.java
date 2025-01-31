@@ -180,6 +180,7 @@ public class TaskManager {
     }
 
     private void viewUrgentTasks() {
+        System.out.println("Urgent tasks...");
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i);
             if (task.getState() instanceof Urgent) {
