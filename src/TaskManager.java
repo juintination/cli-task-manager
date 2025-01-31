@@ -1,3 +1,4 @@
+import validator.TaskValidator;
 import task.*;
 
 import java.io.BufferedReader;
@@ -11,10 +12,6 @@ public class TaskManager {
     private static TaskManager taskManager;
 
     private final String INPUT_ERROR_MESSAGE = "Error has occurred. Please enter it again.";
-    private final String NAME_ERROR_MESSAGE = "Name cannot be empty. Please enter it again.";
-    private final String TASK_TITLE_ERROR_MESSAGE = "Title cannot be empty. Please enter it again.";
-    private final String TASK_DESCRIPTION_ERROR_MESSAGE = "Description cannot be empty. Please enter it again.";
-    private final String TASK_COMPLETED_ERROR_MESSAGE = "Completed task's priority cannot be modified.";
 
     private String name;
     private BufferedReader br;
@@ -57,7 +54,7 @@ public class TaskManager {
             System.out.print("Please enter your name: ");
             try {
                 String name = br.readLine();
-                validateName(name);
+                TaskValidator.validateName(name);
                 this.name = name;
                 break;
             } catch (IOException e) {
@@ -65,12 +62,6 @@ public class TaskManager {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
-        }
-    }
-
-    private void validateName(String name) {
-        if (name.isEmpty()) {
-            throw new IllegalArgumentException(NAME_ERROR_MESSAGE);
         }
     }
 
@@ -90,19 +81,13 @@ public class TaskManager {
         while (true) {
             try {
                 String choice = br.readLine();
-                validateChoice(choice);
+                TaskValidator.validateChoice(choice);
                 return Byte.parseByte(choice);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             } catch (IOException e) {
                 System.out.println(INPUT_ERROR_MESSAGE);
             }
-        }
-    }
-
-    private void validateChoice(String choice) {
-        if (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") &&!choice.equals("0")) {
-            throw new IllegalArgumentException(INPUT_ERROR_MESSAGE);
         }
     }
 
@@ -224,7 +209,7 @@ public class TaskManager {
             System.out.print("Enter the title of the task: ");
             try {
                 String title = br.readLine();
-                validateTaskTitle(title);
+                TaskValidator.validateTaskTitle(title);
                 return title;
             } catch (IOException e) {
                 System.out.println(INPUT_ERROR_MESSAGE);
@@ -234,30 +219,18 @@ public class TaskManager {
         }
     }
 
-    private void validateTaskTitle(String title) {
-        if (title.isEmpty()) {
-            throw new IllegalArgumentException(TASK_TITLE_ERROR_MESSAGE);
-        }
-    }
-
     private String inputTaskDescription() {
         while (true) {
             System.out.print("Enter the description of the task: ");
             try {
                 String description = br.readLine();
-                validateTaskDescription(description);
+                TaskValidator.validateTaskDescription(description);
                 return description;
             } catch (IOException e) {
                 System.out.println(INPUT_ERROR_MESSAGE);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
-        }
-    }
-
-    private void validateTaskDescription(String description) {
-        if (description.isEmpty()) {
-            throw new IllegalArgumentException(TASK_DESCRIPTION_ERROR_MESSAGE);
         }
     }
 
@@ -284,19 +257,13 @@ public class TaskManager {
             System.out.print("Enter the number of the task: ");
             try {
                 String index = br.readLine();
-                validateTaskIndex(index);
+                TaskValidator.validateTaskIndex(index, tasks.size());
                 return Integer.parseInt(index) - 1;
             } catch (IOException e) {
                 System.out.println(INPUT_ERROR_MESSAGE);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
-        }
-    }
-
-    private void validateTaskIndex(String index) {
-        if (index.isEmpty() || !index.matches("[0-9]+") || Integer.parseInt(index) < 0 || Integer.parseInt(index) > tasks.size()) {
-            throw new IllegalArgumentException(INPUT_ERROR_MESSAGE);
         }
     }
 
@@ -343,7 +310,7 @@ public class TaskManager {
     private void changePriority(BasicTask task) {
         BasicTask modifiedTask = null;
         try {
-            validateIsPendingOrUrgent(task);
+            TaskValidator.validateIsPendingOrUrgent(task);
             if (task instanceof UrgentTask) {
                 modifiedTask = new PendingTask(task.getTitle(), task.getDescription());
             } else {
@@ -354,12 +321,6 @@ public class TaskManager {
         }
         if (modifiedTask != null) {
             tasks.set(tasks.indexOf(task), modifiedTask);
-        }
-    }
-
-    private void validateIsPendingOrUrgent(BasicTask task) {
-        if (task instanceof CompletedTask) {
-            throw new IllegalArgumentException(TASK_COMPLETED_ERROR_MESSAGE);
         }
     }
 
