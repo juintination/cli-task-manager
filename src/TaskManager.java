@@ -154,13 +154,6 @@ public class TaskManager {
         }
     }
 
-    private void printAllTasks() {
-        for (int i = 0; i < tasks.size(); i++) {
-            Task task = tasks.get(i);
-            System.out.println(i + 1 + ". " + task.getInfo());
-        }
-    }
-
     private void viewEveryTasks() {
         System.out.println("Every tasks...");
         for (int i = 0; i < tasks.size(); i++) {
@@ -232,6 +225,13 @@ public class TaskManager {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    private void printAllTasks() {
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            System.out.println(i + 1 + ". " + task.getInfo());
         }
     }
 
