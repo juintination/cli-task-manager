@@ -4,6 +4,8 @@ import task.state.Urgent;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
@@ -40,13 +42,45 @@ public class TaskManager {
     }
 
     public void start() {
-        inputName();
+        loadTasks();
         while (true) {
             printWelcomeMessage();
             byte choicedNumber = inputChoice();
             if (!taskLoop(choicedNumber)) {
                 break;
             }
+        }
+    }
+
+    private void loadTasks() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("tasks.txt"))) {
+            name = reader.readLine();
+            if (tasks.isEmpty()) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] taskData = line.split(",");
+                    if (taskData.length == 3) {
+                        Task task = new Task(taskData[0], taskData[1]);
+                        if (taskData[2].equals("Completed")) {
+                            task.changeDone();
+                        } else if (taskData[2].equals("Urgent")) {
+                            task.changePriority();
+                        }
+                        tasks.add(task);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            inputName();
+            createTasksFile();
+        }
+    }
+
+    private void createTasksFile() {
+        try (FileWriter writer = new FileWriter("tasks.txt")) {
+            writer.write(name + "\n");
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Failed to create tasks.txt: " + e.getMessage());
         }
     }
 
@@ -197,7 +231,17 @@ public class TaskManager {
     private void addTask() {
         String title = inputTaskTitle();
         String description = inputTaskDescription();
-        offerTask(new Task(title, description));
+        Task task = new Task(title, description);
+        offerTask(task);
+        appendTaskToFile(task);
+    }
+
+    private void appendTaskToFile(Task task) {
+        try (FileWriter writer = new FileWriter("tasks.txt", true)) {
+            writer.write(task.getTitle() + "," + task.getDescription() + "," + task.getState().getClass().getSimpleName() + "\n");
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Failed to append task to tasks.txt: " + e.getMessage());
+        }
     }
 
     private String inputTaskTitle() {
@@ -253,6 +297,7 @@ public class TaskManager {
         printMoreModifyMessage();
         byte choicedNumber = inputChoice();
         modifyTaskLoop(task, choicedNumber);
+        updateTasksFile();
     }
 
     private int inputTaskIndex() {
@@ -323,6 +368,17 @@ public class TaskManager {
         task.setDescription(description);
     }
 
+    private void updateTasksFile() {
+        try (FileWriter writer = new FileWriter("tasks.txt")) {
+            writer.write(name + "\n");
+            for (Task task : tasks) {
+                writer.write(task.getTitle() + "," + task.getDescription() + "," + task.getState().getClass().getSimpleName() + "\n");
+            }
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Failed to update tasks.txt: " + e.getMessage());
+        }
+    }
+
     private void removeTask() {
         if (tasks.isEmpty()) {
             System.out.println("There are no tasks to remove.");
@@ -336,6 +392,7 @@ public class TaskManager {
             return;
         }
         deleteTask(tasks.get(index));
+        updateTasksFile();
     }
 
 }
