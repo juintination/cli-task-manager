@@ -44,7 +44,7 @@ Hi, jay! Welcome to CLI Task Manager. What would you like to do?
 3. Modify tasks
 4. Remove a task
 0. Exit
-1
+Enter the number: 1
 There are no tasks to view.
 ```
 
@@ -57,7 +57,7 @@ Hi, jay! Welcome to CLI Task Manager. What would you like to do?
 3. Modify tasks
 4. Remove a task
 0. Exit
-2
+Enter the number: 2
 Enter the title of the task: Sample title
 Enter the description of the task: Sample description
 ```
@@ -72,7 +72,7 @@ Hi, jay! Welcome to CLI Task Manager. What would you like to do?
 3. Modify tasks
 4. Remove a task
 0. Exit
-3
+Enter the number: 3
 Which task would you like to modify?
 1. "Sample title - Sample description" is pending.
 2. "Sample Title 2 - Sample Description 2" is pending.
@@ -85,7 +85,7 @@ What would you like to do with the task?
 3. Change title
 4. Change description
 0. Go back
-1
+Enter the number: 1
 ```
 
 - 작업 중요도 변경
@@ -97,7 +97,7 @@ Hi, jay! Welcome to CLI Task Manager. What would you like to do?
 3. Modify tasks
 4. Remove a task
 0. Exit
-3
+Enter the number: 3
 Which task would you like to modify?
 1. "Sample title - Sample description" is completed.
 2. "Sample Title 2 - Sample Description 2" is pending.
@@ -110,7 +110,7 @@ What would you like to do with the task?
 3. Change title
 4. Change description
 0. Go back
-2
+Enter the number: 2
 ```
 
 - 작업 제목 및 내용 변경
@@ -122,7 +122,7 @@ Hi, jay! Welcome to CLI Task Manager. What would you like to do?
 3. Modify tasks
 4. Remove a task
 0. Exit
-3
+Enter the number: 3
 Which task would you like to modify?
 1. "Sample title - Sample description" is completed.
 2. [URGENT] "Sample Title 2 - Sample Description 2" is pending.
@@ -135,7 +135,7 @@ What would you like to do with the task?
 3. Change title
 4. Change description
 0. Go back
-3
+Enter the number: 3
 Enter the title of the task: Modified Title
 
 Hi, jay! Welcome to CLI Task Manager. What would you like to do?
@@ -144,7 +144,7 @@ Hi, jay! Welcome to CLI Task Manager. What would you like to do?
 3. Modify tasks
 4. Remove a task
 0. Exit
-3
+Enter the number: 3
 Which task would you like to modify?
 1. "Sample title - Sample description" is completed.
 2. [URGENT] "Sample Title 2 - Sample Description 2" is pending.
@@ -157,7 +157,7 @@ What would you like to do with the task?
 3. Change title
 4. Change description
 0. Go back
-4
+Enter the number: 4
 Enter the description of the task: Modified Description
 ```
 
@@ -170,14 +170,14 @@ Hi, jay! Welcome to CLI Task Manager. What would you like to do?
 3. Modify tasks
 4. Remove a task
 0. Exit
-1
+Enter the number: 1
 What would you like to do?
 1. View every tasks
 2. View pending tasks
 3. View urgent tasks
 4. View completed tasks
 0. Go back
-1
+Enter the number: 1
 Every tasks...
 1. "Sample title - Sample description" is completed.
 2. [URGENT] "Sample Title 2 - Sample Description 2" is pending.
@@ -193,14 +193,14 @@ Hi, jay! Welcome to CLI Task Manager. What would you like to do?
 3. Modify tasks
 4. Remove a task
 0. Exit
-1
+Enter the number: 1
 What would you like to do?
 1. View every tasks
 2. View pending tasks
 3. View urgent tasks
 4. View completed tasks
 0. Go back
-2
+Enter the number: 2
 Pending tasks...
 2. [URGENT] "Sample Title 2 - Sample Description 2" is pending.
 3. "Modified Title - Modified Description" is pending.
@@ -215,7 +215,7 @@ Hi, jay! Welcome to CLI Task Manager. What would you like to do?
 3. Modify tasks
 4. Remove a task
 0. Exit
-4
+Enter the number: 4
 Which task would you like to remove?
 1. "Sample title - Sample description" is completed.
 2. [URGENT] "Sample Title 2 - Sample Description 2" is pending.
@@ -233,7 +233,7 @@ Hi, jay! Welcome to CLI Task Manager. What would you like to do?
 3. Modify tasks
 4. Remove a task
 0. Exit
-0
+Enter the number: 0
 Goodbye, jay!
 ```
 
