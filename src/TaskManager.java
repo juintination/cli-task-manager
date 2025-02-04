@@ -80,6 +80,7 @@ public class TaskManager {
     private byte inputChoice() {
         while (true) {
             try {
+                System.out.print("Enter the number: ");
                 String choice = br.readLine();
                 TaskValidator.validateChoice(choice);
                 return Byte.parseByte(choice);
