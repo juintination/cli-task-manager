@@ -1,4 +1,6 @@
-package task;
+package task.state;
+
+import task.Task;
 
 public class Urgent extends Pending {
 

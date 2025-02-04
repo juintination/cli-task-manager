@@ -1,6 +1,7 @@
 package validator;
 
-import task.*;
+import task.Task;
+import task.state.Completed;
 
 public class TaskValidator {
 

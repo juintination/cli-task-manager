@@ -1,5 +1,9 @@
 package task;
 
+import task.state.TaskState;
+import task.state.Pending;
+import task.state.Completed;
+
 public class Task {
 
     private String title;

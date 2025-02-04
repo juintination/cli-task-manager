@@ -1,4 +1,6 @@
-package task;
+package task.state;
+
+import task.Task;
 
 public abstract class TaskState {
 
