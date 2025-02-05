@@ -4,6 +4,7 @@ import task.state.Urgent;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -42,7 +43,12 @@ public class TaskManager {
     }
 
     public void start() {
-        loadTasks();
+        inputName();
+        if (nameFileExists()) {
+            loadTasks();
+        } else {
+            createTasksFile();
+        }
         while (true) {
             printWelcomeMessage();
             byte choicedNumber = inputChoice();
@@ -52,9 +58,16 @@ public class TaskManager {
         }
     }
 
+    private boolean nameFileExists() {
+        try (BufferedReader ignored = new BufferedReader(new FileReader("tasks/" + name + ".txt"))) {
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
     private void loadTasks() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("tasks.txt"))) {
-            name = reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader("tasks/" + name + ".txt"))) {
             if (tasks.isEmpty()) {
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -71,16 +84,18 @@ public class TaskManager {
                 }
             }
         } catch (IOException e) {
-            inputName();
-            createTasksFile();
+            throw new IllegalArgumentException("Failed to load tasks: " + e.getMessage());
         }
     }
 
     private void createTasksFile() {
-        try (FileWriter writer = new FileWriter("tasks.txt")) {
-            writer.write(name + "\n");
+        File directory = new File("tasks");
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        try (FileWriter ignored = new FileWriter("tasks/" + name + ".txt")) {
         } catch (IOException e) {
-            throw new IllegalArgumentException("Failed to create tasks.txt: " + e.getMessage());
+            throw new IllegalArgumentException("Failed to create " + name + ".txt: " + e.getMessage());
         }
     }
 
@@ -237,7 +252,7 @@ public class TaskManager {
     }
 
     private void appendTaskToFile(Task task) {
-        try (FileWriter writer = new FileWriter("tasks.txt", true)) {
+        try (FileWriter writer = new FileWriter("tasks/" + name + ".txt", true)) {
             writer.write(task.getTitle() + "," + task.getDescription() + "," + task.getState().getClass().getSimpleName() + "\n");
         } catch (IOException e) {
             throw new IllegalArgumentException("Failed to append task to tasks.txt: " + e.getMessage());
@@ -369,7 +384,7 @@ public class TaskManager {
     }
 
     private void updateTasksFile() {
-        try (FileWriter writer = new FileWriter("tasks.txt")) {
+        try (FileWriter writer = new FileWriter("tasks/" + name + ".txt")) {
             writer.write(name + "\n");
             for (Task task : tasks) {
                 writer.write(task.getTitle() + "," + task.getDescription() + "," + task.getState().getClass().getSimpleName() + "\n");
