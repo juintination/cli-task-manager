@@ -4,9 +4,6 @@ import task.state.Urgent;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
@@ -20,11 +17,13 @@ public class TaskManager {
     private String name;
     private BufferedReader br;
     private List<Task> tasks;
+    private FileManager fileManager;
 
     private TaskManager() {
         name = "";
         br = new BufferedReader(new InputStreamReader(System.in));
         tasks = new ArrayList<>();
+        fileManager = FileManager.getInstance();
     }
 
     public static TaskManager getInstance() {
@@ -44,10 +43,10 @@ public class TaskManager {
 
     public void start() {
         inputName();
-        if (nameFileExists()) {
-            loadTasks();
+        if (fileManager.nameFileExists(name)) {
+            fileManager.loadTasks(name, tasks);
         } else {
-            createTasksFile();
+            fileManager.createTasksFile(name);
         }
         while (true) {
             printWelcomeMessage();
@@ -55,47 +54,6 @@ public class TaskManager {
             if (!taskLoop(choicedNumber)) {
                 break;
             }
-        }
-    }
-
-    private boolean nameFileExists() {
-        try (BufferedReader ignored = new BufferedReader(new FileReader("tasks/" + name + ".txt"))) {
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-    private void loadTasks() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("tasks/" + name + ".txt"))) {
-            if (tasks.isEmpty()) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] taskData = line.split(",");
-                    if (taskData.length == 3) {
-                        Task task = new Task(taskData[0], taskData[1]);
-                        if (taskData[2].equals("Completed")) {
-                            task.changeDone();
-                        } else if (taskData[2].equals("Urgent")) {
-                            task.changePriority();
-                        }
-                        tasks.add(task);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Failed to load tasks: " + e.getMessage());
-        }
-    }
-
-    private void createTasksFile() {
-        File directory = new File("tasks");
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
-        try (FileWriter ignored = new FileWriter("tasks/" + name + ".txt")) {
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Failed to create " + name + ".txt: " + e.getMessage());
         }
     }
 
@@ -248,15 +206,7 @@ public class TaskManager {
         String description = inputTaskDescription();
         Task task = new Task(title, description);
         offerTask(task);
-        appendTaskToFile(task);
-    }
-
-    private void appendTaskToFile(Task task) {
-        try (FileWriter writer = new FileWriter("tasks/" + name + ".txt", true)) {
-            writer.write(task.getTitle() + "," + task.getDescription() + "," + task.getState().getClass().getSimpleName() + "\n");
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Failed to append task to tasks.txt: " + e.getMessage());
-        }
+        fileManager.appendTaskToFile(name, task);
     }
 
     private String inputTaskTitle() {
@@ -312,7 +262,7 @@ public class TaskManager {
         printMoreModifyMessage();
         byte choicedNumber = inputChoice();
         modifyTaskLoop(task, choicedNumber);
-        updateTasksFile();
+        fileManager.updateTasksFile(name, tasks);
     }
 
     private int inputTaskIndex() {
@@ -383,17 +333,6 @@ public class TaskManager {
         task.setDescription(description);
     }
 
-    private void updateTasksFile() {
-        try (FileWriter writer = new FileWriter("tasks/" + name + ".txt")) {
-            writer.write(name + "\n");
-            for (Task task : tasks) {
-                writer.write(task.getTitle() + "," + task.getDescription() + "," + task.getState().getClass().getSimpleName() + "\n");
-            }
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Failed to update tasks.txt: " + e.getMessage());
-        }
-    }
-
     private void removeTask() {
         if (tasks.isEmpty()) {
             System.out.println("There are no tasks to remove.");
@@ -407,7 +346,7 @@ public class TaskManager {
             return;
         }
         deleteTask(tasks.get(index));
-        updateTasksFile();
+        fileManager.updateTasksFile(name, tasks);
     }
 
 }
