@@ -8,38 +8,29 @@ import java.util.List;
 
 public class FileManager {
 
-    private static FileManager fileManager = null;
+    private static final String TASKS_DIRECTORY = "tasks";
 
-    private final String DIRECTORY_PATH = "tasks";
-
-    private FileManager() {
+    static {
         ensureFileDirectoryExists();
     }
 
-    public static FileManager getInstance() {
-        if (fileManager == null) {
-            fileManager = new FileManager();
-        }
-        return fileManager;
-    }
-
-    private void ensureFileDirectoryExists() {
-        File directory = new File(DIRECTORY_PATH);
+    private static void ensureFileDirectoryExists() {
+        File directory = new File(TASKS_DIRECTORY);
         if (!directory.exists()) {
             directory.mkdir();
         }
     }
 
-    public boolean nameFileExists(String name) {
-        try (BufferedReader ignored = new BufferedReader(new FileReader(DIRECTORY_PATH + "/" + name + ".txt"))) {
+    public static boolean nameFileExists(String name) {
+        try (BufferedReader ignored = new BufferedReader(new FileReader(TASKS_DIRECTORY + "/" + name + ".txt"))) {
             return true;
         } catch (IOException e) {
             return false;
         }
     }
 
-    public void loadTasks(String name, List<Task> tasks) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(DIRECTORY_PATH + "/" + name + ".txt"))) {
+    public static void loadTasks(String name, List<Task> tasks) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(TASKS_DIRECTORY + "/" + name + ".txt"))) {
             if (tasks.isEmpty()) {
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -60,23 +51,23 @@ public class FileManager {
         }
     }
 
-    public void createTasksFile(String name) {
-        try (FileWriter ignored = new FileWriter(DIRECTORY_PATH + "/" + name + ".txt")) {
+    public static void createTasksFile(String name) {
+        try (FileWriter ignored = new FileWriter(TASKS_DIRECTORY + "/" + name + ".txt")) {
         } catch (IOException e) {
             throw new IllegalArgumentException("Failed to create " + name + ".txt: " + e.getMessage());
         }
     }
 
-    public void appendTaskToFile(String name, Task task) {
-        try (FileWriter writer = new FileWriter(DIRECTORY_PATH + "/" + name + ".txt", true)) {
+    public static void appendTaskToFile(String name, Task task) {
+        try (FileWriter writer = new FileWriter(TASKS_DIRECTORY + "/" + name + ".txt", true)) {
             writer.write(task.getTitle() + "," + task.getDescription() + "," + task.getState().getClass().getSimpleName() + "\n");
         } catch (IOException e) {
             throw new IllegalArgumentException("Failed to append task to tasks.txt: " + e.getMessage());
         }
     }
 
-    public void updateTasksFile(String name, List<Task> tasks) {
-        try (FileWriter writer = new FileWriter(DIRECTORY_PATH + "/" + name + ".txt")) {
+    public static void updateTasksFile(String name, List<Task> tasks) {
+        try (FileWriter writer = new FileWriter(TASKS_DIRECTORY + "/" + name + ".txt")) {
             writer.write(name + "\n");
             for (Task task : tasks) {
                 writer.write(task.getTitle() + "," + task.getDescription() + "," + task.getState().getClass().getSimpleName() + "\n");
@@ -85,4 +76,5 @@ public class FileManager {
             throw new IllegalArgumentException("Failed to update tasks.txt: " + e.getMessage());
         }
     }
+
 }

@@ -17,13 +17,11 @@ public class TaskManager {
     private String name;
     private BufferedReader br;
     private List<Task> tasks;
-    private FileManager fileManager;
 
     private TaskManager() {
         name = "";
         br = new BufferedReader(new InputStreamReader(System.in));
         tasks = new ArrayList<>();
-        fileManager = FileManager.getInstance();
     }
 
     public static TaskManager getInstance() {
@@ -43,10 +41,10 @@ public class TaskManager {
 
     public void start() {
         inputName();
-        if (fileManager.nameFileExists(name)) {
-            fileManager.loadTasks(name, tasks);
+        if (FileManager.nameFileExists(name)) {
+            FileManager.loadTasks(name, tasks);
         } else {
-            fileManager.createTasksFile(name);
+            FileManager.createTasksFile(name);
         }
         while (true) {
             printWelcomeMessage();
@@ -206,7 +204,7 @@ public class TaskManager {
         String description = inputTaskDescription();
         Task task = new Task(title, description);
         offerTask(task);
-        fileManager.appendTaskToFile(name, task);
+        FileManager.appendTaskToFile(name, task);
     }
 
     private String inputTaskTitle() {
@@ -262,7 +260,7 @@ public class TaskManager {
         printMoreModifyMessage();
         byte choicedNumber = inputChoice();
         modifyTaskLoop(task, choicedNumber);
-        fileManager.updateTasksFile(name, tasks);
+        FileManager.updateTasksFile(name, tasks);
     }
 
     private int inputTaskIndex() {
@@ -346,7 +344,7 @@ public class TaskManager {
             return;
         }
         deleteTask(tasks.get(index));
-        fileManager.updateTasksFile(name, tasks);
+        FileManager.updateTasksFile(name, tasks);
     }
 
 }
