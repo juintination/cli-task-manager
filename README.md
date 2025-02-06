@@ -27,7 +27,7 @@ CLI 프로그램 제작 (동기 프로그램)
 
 ### 클래스 다이어그램
 
-![diagram](https://github.com/user-attachments/assets/619feb1c-cc13-4130-bed2-0eef9ceff4c9)
+![diagram](https://github.com/user-attachments/assets/1828aca6-52d0-47e4-8ea9-421c07732517)
 
 ### 입출력 예시
 
