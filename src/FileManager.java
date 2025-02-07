@@ -68,7 +68,6 @@ public class FileManager {
 
     public static void updateTasksFile(String name, List<Task> tasks) {
         try (FileWriter writer = new FileWriter(TASKS_DIRECTORY + "/" + name + ".txt")) {
-            writer.write(name + "\n");
             for (Task task : tasks) {
                 writer.write(task.getTitle() + "," + task.getDescription() + "," + task.getState().getClass().getSimpleName() + "\n");
             }
